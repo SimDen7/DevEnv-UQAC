@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  vmImage: 'ubuntu-latest' # ou une autre image valide
+  vmImage: 'ubuntu-latest' 
 
 
 variables:
