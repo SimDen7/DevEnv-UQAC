@@ -7,13 +7,26 @@ trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest' # ou une autre image valide
+
+
+variables:
+  - name: RgGroup
+    value: 'groupe1'
+  - name: RgLocation
+    value: 'East US'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Azure subscription 1(c24d5ea5-e90d-4220-908f-60b4f697f89b)'
+    subscriptionId: 'c24d5ea5-e90d-4220-908f-60b4f697f89b'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName:  groupe1
+    location: RgLocation
+    templateLocation: 'Linked artifact'
+    csmFile: 'https://github.com/Jadyle/DevEnv-UQAC/blob/main/VMss/deployvmss.json'
+    csmParametersFile: 'https://github.com/Jadyle/DevEnv-UQAC/blob/main/VMss/deployvmss.parameters.json'
+    deploymentMode: 'Validation'
