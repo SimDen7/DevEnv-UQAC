@@ -26,6 +26,6 @@ steps:
     resourceGroupName:  groupe1
     location: RgLocation
     templateLocation: 'Linked artifact'
-    csmFile: 'https://github.com/Jadyle/DevEnv-UQAC/blob/main/VMss/deployvmss.json'
-    csmParametersFile: 'https://github.com/Jadyle/DevEnv-UQAC/blob/main/VMss/deployvmss.parameters.json'
+    csmFile: 'VMss/deployvmss.json'
+    csmParametersFile: 'VMss/deployvmss.parameters.json'
     deploymentMode: 'Validation'
