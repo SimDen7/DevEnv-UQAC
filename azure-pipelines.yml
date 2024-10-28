@@ -17,6 +17,12 @@ variables:
 
 steps:
 
+- task: AzureKeyVault@2
+  inputs:
+    azureSubscription: 'spn-app'
+    KeyVaultName: 'kv-test-789'
+    SecretsFilter: 'admin-password'
+    RunAsPreJob: false
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
@@ -28,4 +34,5 @@ steps:
     templateLocation: 'Linked artifact'
     csmFile: 'VMss/deployvmss.json'
     csmParametersFile: 'VMss/deployvmss.parameters.json'
+    overrideParameters: '-adminPassword "$(admin-password)"'  #Overwrite the password
     deploymentMode: 'Validation'
