@@ -10,7 +10,10 @@ pool: Default
 
 
 variables:
-  azureSubscription: 'Azure subscription 1(c24d5ea5-e90d-4220-908f-60b4f697f89b)' 
+  azureSubscription: 'Azure subscription 1(c24d5ea5-e90d-4220-908f-60b4f697f89b)'
+  location: 'East US'
+  ressourceGroupTemplate: 'KeyVault/ressourcegroup.json'
+  ressourceGroupParameters: 'KeyVault/ressourcegroup.parameters.json'
 stages:
   - stage: DeployResourceGroup
     displayName: 'Deploy Resource Group'
@@ -23,10 +26,10 @@ stages:
             inputs:
               deploymentScope: 'Subscription'
               azureResourceManagerConnection: $(azureSubscription)
-              location: '[parameters from JSON file]'
+              location: '$(location)'
               templateLocation: 'Linked artifact'
-              csmFile: 'KeyVault/ressourcegroup.json'         # Path to resource group template
-              csmParametersFile: 'KeyVault/ressourcegroup.parameters.json' # Path to parameter file for the resource group
+              csmFile: '$(ressourceGroupTemplate)'         # Path to resource group template
+              csmParametersFile: '$(ressourceGroupParameters)' # Path to parameter file for the resource group
               deploymentMode: 'Incremental'
 
   - stage: DeployKeyVault
