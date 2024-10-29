@@ -8,7 +8,7 @@ trigger:
 
 pool: Default
 
-steps:
+
 variables:
   azureSubscription: 'Azure subscription 1(c24d5ea5-e90d-4220-908f-60b4f697f89b)' 
 stages:
