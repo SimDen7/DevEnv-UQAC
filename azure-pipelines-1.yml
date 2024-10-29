@@ -18,14 +18,15 @@ stages:
       - job: DeployRG
         displayName: 'Deploy Resource Group'
         steps:
+          - checkout: self
           - task: AzureResourceManagerTemplateDeployment@3
             inputs:
               deploymentScope: 'Subscription'
               azureResourceManagerConnection: $(azureSubscription)
               location: '[parameters from JSON file]'
               templateLocation: 'Linked artifact'
-              csmFile: 'https://github.com/Jadyle/DevEnv-UQAC/blob/main/KeyVault/ressourcegroup.json'         # Path to resource group template
-              csmParametersFile: 'https://github.com/Jadyle/DevEnv-UQAC/blob/main/KeyVault/ressourcegroup.parameters.json' # Path to parameter file for the resource group
+              csmFile: 'KeyVault/ressourcegroup.json'         # Path to resource group template
+              csmParametersFile: 'KeyVault/ressourcegroup.parameters.json' # Path to parameter file for the resource group
               deploymentMode: 'Incremental'
 
   - stage: DeployKeyVault
