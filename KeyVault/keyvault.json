@@ -30,7 +30,7 @@
             "type": "bool"
         },
         "publicNetworkAccess": {
-            "type": "string "
+            "type": "string"
         },
         "enableSoftDelete": {
             "type": "bool"
