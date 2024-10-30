@@ -89,7 +89,7 @@
         "rebootSetting": {
             "type": "string"
         },
-            "customData": {
+        "customData": {
             "type": "string"
         },
         "securityType": {
