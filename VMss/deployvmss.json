@@ -90,7 +90,7 @@
             "type": "string"
         },
             "customData": {
-            "type": "SecureString"
+            "type": "string"
         },
         "securityType": {
             "type": "string"
