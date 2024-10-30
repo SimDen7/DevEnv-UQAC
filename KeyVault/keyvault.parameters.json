@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "name": {
-            "value": "keyvault-deploiment"
+            "value": "keyvault-deployment"
         },
         "location": {
             "value": "eastus"
@@ -11,11 +11,11 @@
         "sku": {
             "value": "Standard"
         },
-        "accessPolicies": {
-            "value": []
-        },
         "tenant": {
             "value": "c6ca5242-3e67-4d1f-8377-abfd4b74d028"
+        },
+        "accessPolicies": {
+            "value": []
         },
         "enabledForDeployment": {
             "value": true
@@ -40,7 +40,7 @@
         },
         "networkAcls": {
             "value": {
-				"bypass": "AzureServices",
+                "bypass": "AzureServices",
                 "defaultAction": "Allow",
                 "ipRules": [],
                 "virtualNetworkRules": []

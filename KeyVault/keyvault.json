@@ -1,5 +1,5 @@
 {
-    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
         "name": {
@@ -11,11 +11,11 @@
         "sku": {
             "type": "string"
         },
-        "accessPolicies": {
-            "type": "array"
-        },
         "tenant": {
             "type": "string"
+        },
+        "accessPolicies": {
+            "type": "array"
         },
         "enabledForDeployment": {
             "type": "bool"
@@ -42,24 +42,23 @@
             "type": "object"
         }
     },
-    "variables": {},
     "resources": [
         {
-            "apiVersion": "2023-08-01-preview",
+            "type": "Microsoft.KeyVault/vaults",
+            "apiVersion": "2024-04-01-preview",
             "name": "[parameters('name')]",
             "location": "[parameters('location')]",
-            "type": "Microsoft.KeyVault/vaults",
             "properties": {
+                "sku": {
+                    "family": "A",
+                    "name": "[parameters('sku')]"
+                },
+                "tenantId": "[parameters('tenant')]",
+                "accessPolicies": "[parameters('accessPolicies')]",
                 "enabledForDeployment": "[parameters('enabledForDeployment')]",
                 "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
                 "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
                 "enableRbacAuthorization": "[parameters('enableRbacAuthorization')]",
-                "accessPolicies": "[parameters('accessPolicies')]",
-                "tenantId": "[parameters('tenant')]",
-                "sku": {
-                    "name": "[parameters('sku')]",
-                    "family": "A"
-                },
                 "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
                 "enableSoftDelete": "[parameters('enableSoftDelete')]",
                 "softDeleteRetentionInDays": "[parameters('softDeleteRetentionInDays')]",
@@ -68,11 +67,11 @@
             "tags": {},
             "dependsOn": []
         },
-		{
+        {
             "type": "Microsoft.KeyVault/vaults/secrets",
             "apiVersion": "2024-04-01-preview",
             "name": "[concat(parameters('name'), '/admin-password')]",
-            "location": "eastus",
+            "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.KeyVault/vaults', parameters('name'))]"
             ],
