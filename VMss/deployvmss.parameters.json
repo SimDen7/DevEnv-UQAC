@@ -145,6 +145,10 @@
             "value": "IfRequired"
         },
 
+        "customData": {
+            "value": null
+        },
+
         "securityType": {
             "value": "TrustedLaunch"
         },
