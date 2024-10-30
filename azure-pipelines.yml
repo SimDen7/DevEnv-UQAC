@@ -29,7 +29,7 @@ steps:
     azureResourceManagerConnection: 'Azure subscription 1(c24d5ea5-e90d-4220-908f-60b4f697f89b)'
     subscriptionId: 'c24d5ea5-e90d-4220-908f-60b4f697f89b'
     action: 'Create Or Update Resource Group'
-    resourceGroupName:  groupe1
+    resourceGroupName:  RgGroup
     location: RgLocation
     templateLocation: 'Linked artifact'
     csmFile: 'VMss/deployvmss.json'
