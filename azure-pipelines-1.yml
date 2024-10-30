@@ -8,17 +8,47 @@ trigger:
 
 pool: Default
 
-steps:
 
-- task: AzureResourceManagerTemplateDeployment@3
-  inputs:
-    deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'Azure subscription 1(c24d5ea5-e90d-4220-908f-60b4f697f89b)'
-    subscriptionId: 'c24d5ea5-e90d-4220-908f-60b4f697f89b'
-    action: 'Create Or Update Resource Group'
-    resourceGroupName: 'groupe2'
-    location: 'East US'
-    templateLocation: 'URL of the file'
-    csmFileLink: 'https://github.com/Jadyle/DevEnv-UQAC/blob/main/KeyVault/keyvault.json'
-    csmParametersFileLink: 'https://github.com/Jadyle/DevEnv-UQAC/blob/main/KeyVault/keyvault.parameters.json'
-    deploymentMode: 'Validation'
+variables:
+  azureSubscription: 'Azure subscription 1(c24d5ea5-e90d-4220-908f-60b4f697f89b)'
+  location: 'East US'
+  ressourceGroupTemplate: 'KeyVault/ressourcegroup.json'
+  ressourceGroupParameters: 'KeyVault/ressourcegroup.parameters.json'
+  ressourceGroupName: 'ressource-group-deploiement'
+  keyVaultTemplate: 'KeyVault/keyvault.json'
+  keyVaultParameters: 'KeyVault/keyvault.parameters.json'
+stages:
+  - stage: DeployResourceGroup
+    displayName: 'Deploy Resource Group'
+    jobs:
+      - job: DeployRG
+        displayName: 'Deploy Resource Group'
+        steps:
+          - checkout: self
+          - task: AzureResourceManagerTemplateDeployment@3
+            inputs:
+              deploymentScope: 'Subscription'
+              azureResourceManagerConnection: $(azureSubscription)
+              location: '$(location)'
+              templateLocation: 'Linked artifact'
+              csmFile: '$(ressourceGroupTemplate)'         # Path to resource group template
+              csmParametersFile: '$(ressourceGroupParameters)' # Path to parameter file for the resource group
+              deploymentMode: 'Incremental'
+
+  - stage: DeployKeyVault
+    displayName: 'Deploy Key Vault'
+    dependsOn: DeployResourceGroup
+    jobs:
+      - job: DeployKV
+        displayName: 'Deploy Key Vault'
+        steps:
+          - task: AzureResourceManagerTemplateDeployment@3
+            inputs:
+              deploymentScope: 'Resource Group'
+              azureResourceManagerConnection: $(azureSubscription)
+              resourceGroupName: '$(ressourceGroupName)'
+              location: '$(location)'
+              templateLocation: 'Linked artifact'
+              csmFile: '$(keyVaultTemplate)'         # Path to Key Vault template
+              csmParametersFile: '$(keyVaultParameters)' # Path to parameter file for the Key Vault
+              deploymentMode: 'Incremental'
