@@ -22,12 +22,10 @@ steps:
     targetType: 'inline'
     script: |
       $CloudContent = Get-Content -Path .\DevEnv-UQAC\VMss\WinConfiguration.txt -Raw
-      
-       Write-Host $CloudContent 
-      
+      Write-Host $CloudContent 
       $encodedContent = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($CloudContent))
-      
-      Write-Host "##vso[task.setvariable variable=CustomDataWeb;]$encodedContent" 
+      Write-Host $encodedContent
+      Write-Host "##vso[task.setvariable variable=CustomDataWeb;]$encodedContent"
 - script: | 
     echo $(CustomDataWeb) 
 - task: AzureKeyVault@2
