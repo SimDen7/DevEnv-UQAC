@@ -14,6 +14,9 @@ variables:
   location: 'East US'
   ressourceGroupTemplate: 'KeyVault/ressourcegroup.json'
   ressourceGroupParameters: 'KeyVault/ressourcegroup.parameters.json'
+  ressourceGroupName: 'ressource-group-deploiement'
+  keyVaultTemplate: 'KeyVault/keyvault.json'
+  keyVaultParameters: 'KeyVault/keyvault.parameters.json'
 stages:
   - stage: DeployResourceGroup
     displayName: 'Deploy Resource Group'
@@ -43,9 +46,9 @@ stages:
             inputs:
               deploymentScope: 'Resource Group'
               azureResourceManagerConnection: $(azureSubscription)
-              resourceGroupName: '[rgName from parameters JSON]'
-              location: '[parameters from JSON file]'
+              resourceGroupName: '$(ressourceGroupName)'
+              location: '$(location)'
               templateLocation: 'Linked artifact'
-              csmFile: 'https://github.com/Jadyle/DevEnv-UQAC/blob/main/KeyVault/keyvault.json'              # Path to Key Vault template
-              csmParametersFile: 'https://github.com/Jadyle/DevEnv-UQAC/blob/main/KeyVault/keyvault.parameters.json' # Path to parameter file for Key Vault
+              csmFile: '$(keyVaultTemplate)'         # Path to Key Vault template
+              csmParametersFile: '$(keyVaultParameters)' # Path to parameter file for the Key Vault
               deploymentMode: 'Incremental'
