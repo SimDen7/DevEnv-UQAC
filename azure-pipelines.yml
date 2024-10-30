@@ -45,6 +45,6 @@ steps:
     templateLocation: 'Linked artifact'
     csmFile: 'VMss/deployvmss.json'
     csmParametersFile: 'VMss/deployvmss.parameters.json'
-    overrideParameters: '-adminPassword "$(admin-password)"-customData "$(CustomDataWeb)"'  #Overwrite the password and CustomData
+    overrideParameters: '-customData "$(CustomDataWeb)" -adminPassword "$(admin-password)"'  #Overwrite the password and CustomData
     deploymentMode: 'Validation'
 
