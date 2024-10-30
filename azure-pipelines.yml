@@ -13,7 +13,7 @@ variables:
   - name: Group
     value: 'groupe1'
   - name: Location
-    value: 'East US'
+    value: 'canada central'
 
 steps:
 
