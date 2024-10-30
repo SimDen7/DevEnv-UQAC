@@ -40,7 +40,10 @@
         },
         "networkAcls": {
             "type": "object"
-        }
+        },
+		"adminPassword": {
+			"type": "string"
+		}
     },
     "resources": [
         {
@@ -76,6 +79,7 @@
                 "[resourceId('Microsoft.KeyVault/vaults', parameters('name'))]"
             ],
             "properties": {
+				"value": "[parameters('adminPassword')]",
                 "attributes": {
                     "enabled": true
                 }

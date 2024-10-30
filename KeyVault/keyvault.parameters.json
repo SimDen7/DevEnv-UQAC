@@ -45,6 +45,9 @@
                 "ipRules": [],
                 "virtualNetworkRules": []
             }
-        }
+        },
+		"adminPassword": {
+			"value": "password"
+		}
     }
 }
