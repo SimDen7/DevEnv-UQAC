@@ -11,7 +11,7 @@ pool: default
 
 variables:
   - name: Group
-    value: 'ressource-group-deploiement-vmss'
+    value: 'ressource-group-deployement-vmss'
   - name: Location
     value: 'canada central'
   - name: CustomDataWeb
