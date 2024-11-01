@@ -45,7 +45,7 @@ steps:
 - task: AzureKeyVault@2
   inputs:
     azureSubscription: 'spn-app'
-    KeyVaultName: 'kv-test-789'
+    KeyVaultName: 'keyvault-deployment-2'
     SecretsFilter: 'admin-password'
     RunAsPreJob: false
 - task: AzureResourceManagerTemplateDeployment@3
