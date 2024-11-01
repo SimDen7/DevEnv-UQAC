@@ -11,16 +11,18 @@ pool: default
 
 variables:
   - name: Group
-    value: 'ressource-group-deploiement-vmss'
+    value: 'ressource-group-deployement-vmss'
   - name: Location
     value: 'canada central'
   - name: CustomDataWeb
+  - name: Subscription
+    value: 'Azure subscription 1(c24d5ea5-e90d-4220-908f-60b4f697f89b)'
 
 steps:
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'Azure subscription 1(c24d5ea5-e90d-4220-908f-60b4f697f89b)'
+    azureResourceManagerConnection: '$(Subscription)'
     subscriptionId: 'c24d5ea5-e90d-4220-908f-60b4f697f89b'
     action: 'Create Or Update Resource Group'
     resourceGroupName: '$(Group)'
@@ -43,13 +45,13 @@ steps:
 - task: AzureKeyVault@2
   inputs:
     azureSubscription: 'spn-app'
-    KeyVaultName: 'kv-test-789'
+    KeyVaultName: 'keyvault-deployment-2'
     SecretsFilter: 'admin-password'
     RunAsPreJob: false
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'Azure subscription 1(c24d5ea5-e90d-4220-908f-60b4f697f89b)'
+    azureResourceManagerConnection: '$(Subscription)'
     subscriptionId: 'c24d5ea5-e90d-4220-908f-60b4f697f89b'
     action: 'Create Or Update Resource Group'
     resourceGroupName:  '$(Group)'
