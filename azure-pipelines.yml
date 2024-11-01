@@ -21,13 +21,11 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $CloudContent = Get-Content -Path .\DevEnv-UQAC\VMss\WinConfiguration.txt -Raw
-      
-       Write-Host $CloudContent 
-      
+      $CloudContent = Get-Content -Path "$(Build.SourcesDirectory)\VMss\WinConfiguration.txt" -Raw
+      Write-Host $CloudContent 
       $encodedContent = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($CloudContent))
-      
-      Write-Host "##vso[task.setvariable variable=CustomDataWeb;]$encodedContent" 
+      Write-Host $encodedContent
+      Write-Host "##vso[task.setvariable variable=CustomDataWeb;]$encodedContent"
 - script: | 
     echo $(CustomDataWeb) 
 - task: AzureKeyVault@2
@@ -47,6 +45,6 @@ steps:
     templateLocation: 'Linked artifact'
     csmFile: 'VMss/deployvmss.json'
     csmParametersFile: 'VMss/deployvmss.parameters.json'
-    overrideParameters: '-adminPassword "$(admin-password)"-customData "$(CustomDataWeb)"'  #Overwrite the password and CustomData
+    overrideParameters: '-customData "$(CustomDataWeb)" -adminPassword "$(admin-password)"'  #Overwrite the password and CustomData
     deploymentMode: 'Validation'
 
