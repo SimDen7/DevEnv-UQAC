@@ -47,16 +47,7 @@ steps:
     azureSubscription: 'spn-app'
     KeyVaultName: 'keyvault-deployment-2'
     SecretsFilter: 'admin-password'
-    RunAsPreJob: true
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-        $ErrorActionPreference="Stop";
-            Login-AzureRmAccount -SubscriptionId bb78c400-26a8-43f9-95a1-a6daf9afaa0d;
-            $spn=(Get-AzureRmADServicePrincipal -SPN 2b7986a3-f7f6-44c4-94c2-4d3844346ea9);
-            $spnObjectId=$spn.Id;
-            Set-AzureRmKeyVaultAccessPolicy -VaultName keyvault-deployment-2 -ObjectId $spnObjectId -PermissionsToSecrets get,list;
+    RunAsPreJob: false
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
