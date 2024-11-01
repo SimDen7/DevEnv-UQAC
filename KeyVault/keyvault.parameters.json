@@ -6,7 +6,7 @@
             "value": "keyvault-deployment"
         },
         "location": {
-            "value": "eastus"
+            "value": "canada central"
         },
         "sku": {
             "value": "Standard"

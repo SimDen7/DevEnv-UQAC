@@ -11,10 +11,10 @@ pool: Default
 
 variables:
   azureSubscription: 'Azure subscription 1(c24d5ea5-e90d-4220-908f-60b4f697f89b)'
-  location: 'East US'
+  location: 'canada central'
   ressourceGroupTemplate: 'KeyVault/ressourcegroup.json'
   ressourceGroupParameters: 'KeyVault/ressourcegroup.parameters.json'
-  ressourceGroupName: 'ressource-group-deploiement'
+  ressourceGroupName: 'ressource-group-deployement-keyvault'
   keyVaultTemplate: 'KeyVault/keyvault.json'
   keyVaultParameters: 'KeyVault/keyvault.parameters.json'
 stages:
