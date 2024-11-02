@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "name": {
-            "value": "keyvault-deployment-2"
+            "value": "keyvault-deployment-4"
         },
         "location": {
             "value": "canada central"
@@ -12,7 +12,7 @@
             "value": "Standard"
         },
         "tenant": {
-            "value": "c6ca5242-3e67-4d1f-8377-abfd4b74d028"
+            "value": "c66e1e37-08a8-4882-a067-a61460146130"
         },
         "accessPolicies": {
             "value": []
