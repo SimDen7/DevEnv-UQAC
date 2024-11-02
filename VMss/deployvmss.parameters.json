@@ -24,7 +24,7 @@
             ]
         },
         "virtualNetworkId": {
-            "value": "/subscriptions/eaf541a5-ba8f-48eb-a3a9-0b6f1a188019/resourceGroups/groupvm/providers/Microsoft.Network/virtualNetworks/groupvm-vnet"
+            "value": "/subscriptions/c24d5ea5-e90d-4220-908f-60b4f697f89b/resourceGroups/groupvm/providers/Microsoft.Network/virtualNetworks/groupvm-vnet"
         },
         "virtualNetworkName": {
             "value": "groupvm-vnet"
@@ -33,7 +33,7 @@
             "value": [
                 {
                     "name": "basicNsggroupvm-vnet-nic01",
-                    "id": "/subscriptions/eaf541a5-ba8f-48eb-a3a9-0b6f1a188019/resourceGroups/groupvm/providers/Microsoft.Network/networkSecurityGroups/basicNsggroupvm-vnet-nic01",
+                    "id": "/subscriptions/c24d5ea5-e90d-4220-908f-60b4f697f89b/resourceGroups/groupvm/providers/Microsoft.Network/networkSecurityGroups/basicNsggroupvm-vnet-nic01",
                     "rules": [
                         {
                             "name": "Tcp",
@@ -57,7 +57,7 @@
                 {
                     "name": "groupvm-vnet-nic01",
                     "primary": true,
-                    "subnetId": "/subscriptions/eaf541a5-ba8f-48eb-a3a9-0b6f1a188019/resourceGroups/groupvm/providers/Microsoft.Network/virtualNetworks/groupvm-vnet/subnets/default",
+                    "subnetId": "/subscriptions/c24d5ea5-e90d-4220-908f-60b4f697f89b/resourceGroups/groupvm/providers/Microsoft.Network/virtualNetworks/groupvm-vnet/subnets/default",
                     "applicationGatewayBackendAddressPools": [],
                     "loadBalancerBackendAddressPools": [
                         {
@@ -68,7 +68,7 @@
                     "loadBalancerInboundNatPools": [],
                     "enableAcceleratedNetworking": false,
                     "nsgName": "basicNsggroupvm-vnet-nic01",
-                    "nsgId": "/subscriptions/eaf541a5-ba8f-48eb-a3a9-0b6f1a188019/resourceGroups/groupvm/providers/Microsoft.Network/networkSecurityGroups/basicNsggroupvm-vnet-nic01",
+                    "nsgId": "/subscriptions/c24d5ea5-e90d-4220-908f-60b4f697f89b/resourceGroups/groupvm/providers/Microsoft.Network/networkSecurityGroups/basicNsggroupvm-vnet-nic01",
                     "pipName": "publicIp-groupvm-vnet-nic01"
                 }
             ]
