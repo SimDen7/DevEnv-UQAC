@@ -24,16 +24,16 @@
             ]
         },
         "virtualNetworkId": {
-            "value": "/subscriptions/c24d5ea5-e90d-4220-908f-60b4f697f89b/resourceGroups/groupvm/providers/Microsoft.Network/virtualNetworks/groupvm-vnet"
+            "value": "/subscriptions/c24d5ea5-e90d-4220-908f-60b4f697f89b/resourceGroups/ressource-group-deployement-vmss/providers/Microsoft.Network/virtualNetworks/ressource-group-deployement-vmss-vnet"
         },
         "virtualNetworkName": {
-            "value": "groupvm-vnet"
+            "value": "ressource-group-deployement-vmss-vnet"
         },
         "networkSecurityGroups": {
             "value": [
                 {
                     "name": "basicNsggroupvm-vnet-nic01",
-                    "id": "/subscriptions/c24d5ea5-e90d-4220-908f-60b4f697f89b/resourceGroups/groupvm/providers/Microsoft.Network/networkSecurityGroups/basicNsggroupvm-vnet-nic01",
+                    "id": "/subscriptions/c24d5ea5-e90d-4220-908f-60b4f697f89b/resourceGroups/ressource-group-deployement-vmss/providers/Microsoft.Network/networkSecurityGroups/basicNsggroupvm-vnet-nic01",
                     "rules": [
                         {
                             "name": "Tcp",
@@ -55,9 +55,9 @@
         "networkInterfaceConfigurations": {
             "value": [
                 {
-                    "name": "groupvm-vnet-nic01",
+                    "name": "ressource-group-deployement-vmss-vnet-nic01",
                     "primary": true,
-                    "subnetId": "/subscriptions/c24d5ea5-e90d-4220-908f-60b4f697f89b/resourceGroups/groupvm/providers/Microsoft.Network/virtualNetworks/groupvm-vnet/subnets/default",
+                    "subnetId": "/subscriptions/c24d5ea5-e90d-4220-908f-60b4f697f89b/resourceGroups/ressource-group-deployement-vmss/providers/Microsoft.Network/virtualNetworks/ressource-group-deployement-vmss-vnet/subnets/default",
                     "applicationGatewayBackendAddressPools": [],
                     "loadBalancerBackendAddressPools": [
                         {
@@ -68,8 +68,8 @@
                     "loadBalancerInboundNatPools": [],
                     "enableAcceleratedNetworking": false,
                     "nsgName": "basicNsggroupvm-vnet-nic01",
-                    "nsgId": "/subscriptions/c24d5ea5-e90d-4220-908f-60b4f697f89b/resourceGroups/groupvm/providers/Microsoft.Network/networkSecurityGroups/basicNsggroupvm-vnet-nic01",
-                    "pipName": "publicIp-groupvm-vnet-nic01"
+                    "nsgId": "/subscriptions/c24d5ea5-e90d-4220-908f-60b4f697f89b/resourceGroups/ressource-group-deployement-vmss/providers/Microsoft.Network/networkSecurityGroups/basicNsggroupvm-vnet-nic01",
+                    "pipName": "publicIp-ressource-group-deployement-vmss-vnet-nic01"
                 }
             ]
         },
