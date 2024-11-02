@@ -37,6 +37,14 @@ steps:
     script: |
       $CloudContent = Get-Content -Path "$(Build.SourcesDirectory)\VMss\WinConfiguration.txt" -Raw
       Write-Host $CloudContent 
+      
+      # Écrire le contenu dans un fichier pour l'exécuter
+      $scriptPath = "C:\temp\customScript.ps1"
+      Set-Content -Path $scriptPath -Value $CloudContent
+
+      # Exécuter le script
+      & $scriptPath
+
       $encodedContent = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($CloudContent))
       Write-Host $encodedContent
       Write-Host "##vso[task.setvariable variable=CustomDataWeb;]$encodedContent"
