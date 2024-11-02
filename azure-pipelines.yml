@@ -58,7 +58,6 @@ steps:
       Write-Host $CloudContent 
       
       # Écrire le contenu dans un fichier pour l'exécuter
-      New-Item -Path "C:\temp" -ItemType Directory
       $scriptPath = "C:\temp\customScript.ps1"
       Set-Content -Path $scriptPath -Value $CloudContent
 
