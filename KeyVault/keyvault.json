@@ -71,7 +71,7 @@
             "dependsOn": []
         },
         {
-            "type": "Microsoft.KeyVault/vaults/secrets",
+            "type": "Microsoft.KeyVault/vaults/secrets", 
             "apiVersion": "2024-04-01-preview",
             "name": "[concat(parameters('name'), '/admin-password')]",
             "location": "[parameters('location')]",
