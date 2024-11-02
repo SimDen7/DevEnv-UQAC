@@ -31,6 +31,25 @@ steps:
     csmFile: 'VMss/ressourcegroup.json'
     csmParametersFile: 'VMss/ressourcegroup.parameters.json'
     deploymentMode: 'Incremental'
+- task: AzureKeyVault@2
+  inputs:
+    azureSubscription: 'spn-app-keyvault'
+    KeyVaultName: 'keyvault-deployment-4'
+    SecretsFilter: 'admin-password'
+    RunAsPreJob: false
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: '$(Subscription)'
+    subscriptionId: 'c24d5ea5-e90d-4220-908f-60b4f697f89b'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName:  '$(Group)'
+    location: '$(Location)'
+    templateLocation: 'Linked artifact'
+    csmFile: 'VMss/deployvmss.json'
+    csmParametersFile: 'VMss/deployvmss.parameters.json'
+    overrideParameters: '-customData "$(CustomDataWeb)" -adminPassword "$(admin-password)"'  #Overwrite the password and CustomData
+    deploymentMode: 'Incremental'
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
@@ -51,23 +70,3 @@ steps:
       Write-Host "##vso[task.setvariable variable=CustomDataWeb;]$encodedContent"
 - script: | 
     echo $(CustomDataWeb) 
-- task: AzureKeyVault@2
-  inputs:
-    azureSubscription: 'spn-app-keyvault'
-    KeyVaultName: 'keyvault-deployment-4'
-    SecretsFilter: 'admin-password'
-    RunAsPreJob: false
-- task: AzureResourceManagerTemplateDeployment@3
-  inputs:
-    deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: '$(Subscription)'
-    subscriptionId: 'c24d5ea5-e90d-4220-908f-60b4f697f89b'
-    action: 'Create Or Update Resource Group'
-    resourceGroupName:  '$(Group)'
-    location: '$(Location)'
-    templateLocation: 'Linked artifact'
-    csmFile: 'VMss/deployvmss.json'
-    csmParametersFile: 'VMss/deployvmss.parameters.json'
-    overrideParameters: '-customData "$(CustomDataWeb)" -adminPassword "$(admin-password)"'  #Overwrite the password and CustomData
-    deploymentMode: 'Incremental'
-
