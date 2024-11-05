@@ -35,7 +35,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $CloudContent = Get-Content -Path "$(Build.SourcesDirectory)\VMss\WinConfiguration.txt" -Raw
+      $CloudContent = Get-Content -Path "$(Build.SourcesDirectory)\VMss\LinuxConfiguration.txt" -Raw
       Write-Host $CloudContent 
       $encodedContent = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($CloudContent))
       Write-Host $encodedContent
