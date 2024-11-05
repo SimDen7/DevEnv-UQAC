@@ -1,138 +1,111 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-            "type": "string"
+            "type": "String"
         },
         "osDiskType": {
-            "type": "string"
+            "type": "String"
         },
         "addressPrefixes": {
-            "type": "array"
+            "type": "Array"
         },
         "subnets": {
-            "type": "array"
+            "type": "Array"
         },
         "virtualNetworkId": {
-            "type": "string"
+            "type": "String"
         },
         "virtualNetworkName": {
-            "type": "string"
+            "type": "String"
         },
         "networkSecurityGroups": {
-            "type": "array"
+            "type": "Array"
         },
         "networkInterfaceConfigurations": {
-            "type": "array"
+            "type": "Array"
         },
         "backendPoolName": {
-            "type": "string"
+            "type": "String"
         },
         "loadBalancerName": {
-            "type": "string"
+            "type": "String"
         },
         "loadbalancingRuleFrontEndPort": {
-            "type": "int"
+            "type": "Int"
         },
         "loadbalancingRuleBackendEndPort": {
-            "type": "int"
+            "type": "Int"
         },
         "loadbalancingRuleProtocol": {
-            "type": "string"
+            "type": "String"
         },
         "InboundNATRuleFrontEndPortRangeStart": {
-            "type": "int"
+            "type": "Int"
         },
         "vmName": {
-            "type": "string"
+            "type": "String"
         },
         "virtualMachineScaleSetName": {
-            "type": "string"
+            "type": "String"
         },
         "instanceCount": {
-            "type": "string"
+            "type": "String"
         },
         "instanceSize": {
-            "type": "string"
+            "type": "String"
         },
         "zone": {
-            "type": "array"
+            "type": "Array"
         },
         "zoneBalance": {
-            "type": "string"
+            "type": "String"
         },
         "platformFaultDomainCount": {
-            "type": "string"
+            "type": "String"
         },
         "scaleInPolicy": {
-            "type": "object"
+            "type": "Object"
         },
         "upgradePolicy": {
-            "type": "string"
+            "type": "String"
         },
         "hibernationEnabled": {
-            "type": "bool"
+            "type": "Bool"
         },
         "adminUsername": {
-            "type": "string"
+            "type": "String"
         },
         "adminPassword": {
-            "type": "secureString"
-        },
-        "patchMode": {
-            "type": "string"
-        },
-        "enableHotpatching": {
-            "type": "bool"
-        },
-        "rebootSetting": {
-            "type": "string"
+            "type": "SecureString"
         },
         "customData": {
-            "type": "string"
+            "type": "SecureString"
         },
         "securityType": {
-            "type": "string"
+            "type": "String"
         },
         "secureBoot": {
-            "type": "bool"
+            "type": "Bool"
         },
         "vTPM": {
-            "type": "bool"
-        },
-        "healthExtensionProtocol": {
-            "type": "string"
-        },
-        "healthExtensionPort": {
-            "type": "int"
-        },
-        "healthExtensionRequestPath": {
-            "type": "string"
-        },
-        "autoRepairsPolicyEnabled": {
-            "type": "bool"
-        },
-        "gracePeriod": {
-            "type": "string"
-        },
-        "autoRepairsAction": {
-            "type": "string"
+            "type": "Bool"
         }
     },
     "variables": {
         "storageApiVersion": "2021-01-01",
         "networkApiVersion": "2020-11-01",
-        "virtualMachineScaleSetApiVersion": "2023-09-01",
+        "virtualMachineScaleSetApiVersion": "2024-07-01",
         "namingInfix": "[toLower(substring(concat(parameters('virtualMachineScaleSetName'), uniqueString(resourceGroup().id)), 0, 9))]",
         "autoScaleResourceName": "[concat(substring(parameters('virtualMachineScaleSetName'), 0, min(length(parameters('virtualMachineScaleSetName')), 55)), 'autoscale')]",
         "vmssId": "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('virtualMachineScaleSetName'))]"
     },
     "resources": [
         {
-            "name": "[parameters('virtualNetworkName')]",
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2024-01-01",
+            "name": "[parameters('virtualNetworkName')]",
             "location": "[parameters('location')]",
             "properties": {
                 "addressSpace": {
@@ -142,9 +115,9 @@
             }
         },
         {
-            "name": "[parameters('networkSecurityGroups')[copyIndex()].name]",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2020-05-01",
+            "name": "[parameters('networkSecurityGroups')[copyIndex()].name]",
             "location": "[parameters('location')]",
             "properties": {
                 "securityRules": "[parameters('networkSecurityGroups')[copyIndex()].rules]"
@@ -155,28 +128,31 @@
             }
         },
         {
-            "name": "[concat(parameters('loadBalancerName'), '-publicip')]",
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('loadBalancerName'), '-publicip')]",
             "location": "[parameters('location')]",
-            "properties": {
-                "publicIpAllocationMethod": "Static",
-                "publicIPAddressVersion": "IPv4",
-                "idleTimeoutInMinutes": 15
-            },
             "sku": {
                 "name": "Standard"
             },
             "zones": [
                 "1",
                 "2"
-            ]
+            ],
+            "properties": {
+                "publicIpAllocationMethod": "Static",
+                "publicIPAddressVersion": "IPv4",
+                "idleTimeoutInMinutes": 15
+            }
         },
         {
-            "name": "[parameters('loadBalancerName')]",
             "type": "Microsoft.Network/loadBalancers",
             "apiVersion": "2021-05-01",
+            "name": "[parameters('loadBalancerName')]",
             "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/publicIpAddresses/', concat(parameters('loadBalancerName'), '-publicip'))]"
+            ],
             "sku": {
                 "name": "Standard"
             },
@@ -244,16 +220,13 @@
                             "protocol": "TCP",
                             "enableFloatingIP": false,
                             "enableTcpReset": false,
-                            "backendPort": 3389,
+                            "backendPort": 22,
                             "frontendPortRangeStart": "[parameters('InboundNATRuleFrontEndPortRangeStart')]",
                             "frontendPortRangeEnd": "[add(parameters('InboundNATRuleFrontEndPortRangeStart'), if(equals(parameters('instanceCount'), json('null')), 0, 3599))]"
                         }
                     }
                 ]
-            },
-            "dependsOn": [
-                "[concat('Microsoft.Network/publicIpAddresses/', concat(parameters('loadBalancerName'), '-publicip'))]"
-            ]
+            }
         },
         {
             "type": "Microsoft.Insights/autoscaleSettings",
@@ -318,9 +291,9 @@
             }
         },
         {
-            "name": "[parameters('virtualMachineScaleSetName')]",
             "type": "Microsoft.Compute/virtualMachineScaleSets",
             "apiVersion": "[variables('virtualMachineScaleSetApiVersion')]",
+            "name": "[parameters('virtualMachineScaleSetName')]",
             "location": "[parameters('location')]",
             "dependsOn": [
                 "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
@@ -328,6 +301,11 @@
                 "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
                 "[concat('Microsoft.Network/loadBalancers/', parameters('loadBalancerName'))]"
             ],
+            "sku": {
+                "name": "[parameters('instanceSize')]",
+                "capacity": "[int(parameters('instanceCount'))]"
+            },
+            "zones": "[parameters('zone')]",
             "properties": {
                 "virtualMachineProfile": {
                     "storageProfile": {
@@ -339,9 +317,9 @@
                             }
                         },
                         "imageReference": {
-                            "publisher": "MicrosoftWindowsServer",
-                            "offer": "WindowsServer",
-                            "sku": "2022-datacenter-azure-edition-hotpatch",
+                            "publisher": "canonical",
+                            "offer": "ubuntu-24_04-lts",
+                            "sku": "server",
                             "version": "latest"
                         }
                     },
@@ -377,36 +355,16 @@
                         ]
                     },
                     "extensionProfile": {
-                        "extensions": [
-                            {
-                                "name": "HealthExtension",
-                                "properties": {
-                                    "publisher": "Microsoft.ManagedServices",
-                                    "type": "ApplicationHealthWindows",
-                                    "typeHandlerVersion": "1.0",
-                                    "autoUpgradeMinorVersion": false,
-                                    "settings": {
-                                        "protocol": "[parameters('healthExtensionProtocol')]",
-                                        "port": "[parameters('healthExtensionPort')]",
-                                        "requestPath": "[parameters('healthExtensionRequestPath')]"
-                                    }
-                                }
-                            }
-                        ]
+                        "extensions": []
                     },
                     "osProfile": {
                         "computerNamePrefix": "[variables('namingInfix')]",
                         "adminUsername": "[parameters('adminUsername')]",
                         "adminPassword": "[parameters('adminPassword')]",
-                        "windowsConfiguration": {
-                            "provisionVmAgent": true,
-                            "enableAutomaticUpdates": true,
+                        "linuxConfiguration": {
+                            "disablePasswordAuthentication": false,
                             "patchSettings": {
-                                "enableHotpatching": "[parameters('enableHotpatching')]",
-                                "patchMode": "[parameters('patchMode')]",
-                                "automaticByPlatformSettings": {
-                                    "rebootSetting": "[parameters('rebootSetting')]"
-                                }
+                                "patchMode": "ImageDefault"
                             }
                         },
                         "customData": "[parameters('customData')]"
@@ -428,24 +386,14 @@
                 },
                 "additionalCapabilities": {
                     "hibernationEnabled": false
-                },
-                "automaticRepairsPolicy": {
-                    "enabled": "[parameters('autoRepairsPolicyEnabled')]",
-                    "gracePeriod": "[parameters('gracePeriod')]",
-                    "repairAction": "[parameters('autoRepairsAction')]"
                 }
-            },
-            "sku": {
-                "name": "[parameters('instanceSize')]",
-                "capacity": "[int(parameters('instanceCount'))]"
-            },
-            "zones": "[parameters('zone')]"
+            }
         }
     ],
     "outputs": {
         "adminUsername": {
-            "type": "string",
+            "type": "String",
             "value": "[parameters('adminUsername')]"
-        } 
+        }
     }
-} 
+}

@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-            "value": "canada central"
+            "value": "canadacentral"
         },
         "osDiskType": {
             "value": "StandardSSD_LRS"
@@ -32,20 +32,33 @@
         "networkSecurityGroups": {
             "value": [
                 {
-                    "name": "basicNsggroupvm-vnet-nic01",
-                    "id": "/subscriptions/c24d5ea5-e90d-4220-908f-60b4f697f89b/resourceGroups/ressource-group-deployement-vmss/providers/Microsoft.Network/networkSecurityGroups/basicNsggroupvm-vnet-nic01",
+                    "name": "basicNsgressource-group-deployement-vmss-vnet-nic01",
+                    "id": "/subscriptions/c24d5ea5-e90d-4220-908f-60b4f697f89b/resourceGroups/ressource-group-deployement-vmss/providers/Microsoft.Network/networkSecurityGroups/basicNsgressource-group-deployement-vmss-vnet-nic01",
                     "rules": [
                         {
-                            "name": "Tcp",
+                            "name": "HTTP",
                             "properties": {
                                 "priority": 300,
-                                "protocol": "Tcp",
+                                "protocol": "TCP",
                                 "access": "Allow",
                                 "direction": "Inbound",
                                 "sourceAddressPrefix": "*",
                                 "sourcePortRange": "*",
                                 "destinationAddressPrefix": "*",
                                 "destinationPortRange": "80"
+                            }
+                        },
+                        {
+                            "name": "RDP",
+                            "properties": {
+                                "priority": 320,
+                                "protocol": "TCP",
+                                "access": "Allow",
+                                "direction": "Inbound",
+                                "sourceAddressPrefix": "*",
+                                "sourcePortRange": "*",
+                                "destinationAddressPrefix": "*",
+                                "destinationPortRange": "3389"
                             }
                         }
                     ]
@@ -67,9 +80,9 @@
                     "applicationSecurityGroups": [],
                     "loadBalancerInboundNatPools": [],
                     "enableAcceleratedNetworking": false,
-                    "nsgName": "basicNsggroupvm-vnet-nic01",
-                    "nsgId": "/subscriptions/c24d5ea5-e90d-4220-908f-60b4f697f89b/resourceGroups/ressource-group-deployement-vmss/providers/Microsoft.Network/networkSecurityGroups/basicNsggroupvm-vnet-nic01",
-                    "pipName": "publicIp-ressource-group-deployement-vmss-vnet-nic01"
+                    "nsgName": "basicNsgressource-group-deployement-vmss-vnet-nic01",
+                    "nsgId": "/subscriptions/c24d5ea5-e90d-4220-908f-60b4f697f89b/resourceGroups/ressource-group-deployement-vmss/providers/Microsoft.Network/networkSecurityGroups/basicNsgressource-group-deployement-vmss-vnet-nic01",
+                    "pipName": "publicIp-ressource-group-deployement-vmss-v"
                 }
             ]
         },
@@ -88,7 +101,7 @@
         "loadbalancingRuleProtocol": {
             "value": "Tcp"
         },
-        "InboundNATRuleFrontEndPortRangeStart": {
+        "inboundNATRuleFrontEndPortRangeStart": {
             "value": 50000
         },
         "vmName": {
@@ -135,20 +148,9 @@
         "adminPassword": {
             "value": null
         },
-        "patchMode": {
-            "value": "AutomaticByPlatform"
-        },
-        "enableHotpatching": {
-            "value": true
-        },
-        "rebootSetting": {
-            "value": "IfRequired"
-        },
-
         "customData": {
             "value": null
         },
-
         "securityType": {
             "value": "TrustedLaunch"
         },
@@ -157,24 +159,6 @@
         },
         "vTPM": {
             "value": true
-        },
-        "healthExtensionProtocol": {
-            "value": "http"
-        },
-        "healthExtensionPort": {
-            "value": 80
-        },
-        "healthExtensionRequestPath": {
-            "value": "/"
-        },
-        "autoRepairsPolicyEnabled": {
-            "value": false
-        },
-        "gracePeriod": {
-            "value": "PT10M"
-        },
-        "autoRepairsAction": {
-            "value": "Replace"
         }
     }
 }
