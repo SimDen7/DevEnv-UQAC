@@ -41,6 +41,279 @@ write_files:
         } 
 
       } 
+  - owner: www-data:www-data
+    path: /home/myapp/index.html
+    defer: true
+    content: |
+      <!DOCTYPE html>
+      <html lang="fr">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Page d'Accueil - Mon Entreprise</title>
+          <style>
+              * {
+                  margin: 0;
+                  padding: 0;
+                  box-sizing: border-box;
+              }
+
+              body {
+                  font-family: 'Arial', sans-serif;
+                  background-color: #f4f4f4;
+                  color: #333;
+                  line-height: 1.6;
+                  margin: 0;
+                  padding: 0;
+                  scroll-behavior: smooth;
+              }
+
+              header {
+                  background-color: #3498db;
+                  color: white;
+                  padding: 20px 0;
+                  text-align: center;
+                  position: sticky;
+                  top: 0;
+                  z-index: 1000;
+              }
+
+              nav {
+                  background-color: #2c3e50;
+                  padding: 10px 0;
+                  text-align: center;
+                  position: sticky;
+                  top: 60px;
+              }
+
+              nav a {
+                  color: white;
+                  text-decoration: none;
+                  padding: 15px 25px;
+                  margin: 0 10px;
+                  font-weight: bold;
+                  text-transform: uppercase;
+              }
+
+              nav a:hover {
+                  background-color: #1abc9c;
+                  border-radius: 5px;
+                  transition: background-color 0.3s ease;
+              }
+
+              .hero {
+                  height: 500px;
+                  background-image: url('https://via.placeholder.com/1600x500/3498db/ffffff?text=Bienvenue+sur+notre+site');
+                  background-size: cover;
+                  background-position: center;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  color: white;
+                  text-align: center;
+              }
+
+              .hero h2 {
+                  font-size: 3em;
+                  margin-bottom: 20px;
+                  animation: fadeIn 2s ease-out;
+              }
+
+              .hero p {
+                  font-size: 1.5em;
+                  animation: fadeIn 3s ease-out;
+              }
+
+              @keyframes fadeIn {
+                  from { opacity: 0; }
+                  to { opacity: 1; }
+              }
+
+              .section {
+                  padding: 40px 20px;
+                  max-width: 1200px;
+                  margin: 0 auto;
+                  background-color: white;
+                  border-radius: 10px;
+                  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+                  margin-bottom: 40px;
+              }
+
+              .section h3 {
+                  color: #3498db;
+                  font-size: 2em;
+                  margin-bottom: 20px;
+                  text-align: center;
+              }
+
+              .about, .services, .testimonials {
+                  text-align: center;
+              }
+
+              .services ul {
+                  list-style: none;
+                  padding: 0;
+              }
+
+              .services ul li {
+                  font-size: 1.2em;
+                  margin-bottom: 10px;
+              }
+
+              .gallery {
+                  display: flex;
+                  justify-content: space-between;
+                  gap: 20px;
+                  flex-wrap: wrap;
+              }
+
+              .gallery img {
+                  width: 30%;
+                  border-radius: 10px;
+                  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+                  transition: transform 0.3s ease;
+              }
+
+              .gallery img:hover {
+                  transform: scale(1.1);
+              }
+
+              .testimonial {
+                  margin-bottom: 40px;
+              }
+
+              .testimonial p {
+                  font-size: 1.1em;
+                  font-style: italic;
+                  color: #7f8c8d;
+              }
+
+              .testimonial h4 {
+                  color: #3498db;
+                  font-size: 1.2em;
+              }
+
+              .cta-button {
+                  display: inline-block;
+                  background-color: #3498db;
+                  color: white;
+                  padding: 15px 30px;
+                  margin-top: 20px;
+                  text-decoration: none;
+                  border-radius: 5px;
+                  font-size: 1.2em;
+                  transition: background-color 0.3s ease;
+              }
+
+              .cta-button:hover {
+                  background-color: #1abc9c;
+              }
+
+              footer {
+                  background-color: #2c3e50;
+                  color: white;
+                  text-align: center;
+                  padding: 20px;
+                  position: relative;
+                  bottom: 0;
+                  width: 100%;
+              }
+
+              footer a {
+                  color: #1abc9c;
+                  text-decoration: none;
+              }
+
+              footer a:hover {
+                  text-decoration: underline;
+              }
+          </style>
+      </head>
+      <body>
+
+          <!-- Header -->
+          <header>
+              <h1>Devoir 1</h1>
+              <p>Fournir des solutions digitales innovantes pour vous propulser vers l'avenir</p>
+          </header>
+
+          <!-- Navigation -->
+          <nav>
+              <a href="#accueil">Accueil</a>
+              <a href="#about">À propos</a>
+              <a href="#services">Services</a>
+              <a href="#gallery">Galerie</a>
+              <a href="#testimonials">Témoignages</a>
+              <a href="#contact">Contact</a>
+          </nav>
+
+          <!-- Hero Section -->
+          <section class="hero">
+              <div>
+                  <h2>Bienvenue chez Mon Entreprise</h2>
+                  <p>Nous créons des expériences numériques qui transforment votre activité.</p>
+              </div>
+          </section>
+
+          <!-- Section À propos -->
+          <section id="about" class="section about">
+              <h3>À propos de nous</h3>
+              <p>Depuis plus de 10 ans, Mon Entreprise aide les clients à innover et à se développer grâce à des solutions digitales sur mesure. Nous allions créativité, technologie et stratégie pour donner vie à vos projets.</p>
+              <a href="#contact" class="cta-button">En savoir plus</a>
+          </section>
+
+          <!-- Section Services -->
+          <section id="services" class="section services">
+              <h3>Nos Services</h3>
+              <ul>
+                  <li>Développement de sites web</li>
+                  <li>Applications mobiles performantes</li>
+                  <li>SEO et stratégie digitale</li>
+                  <li>Conception d'identité visuelle</li>
+                  <li>Marketing de contenu</li>
+                  <li>Consultation et gestion de projets</li>
+              </ul>
+              <a href="#contact" class="cta-button">Contactez-nous pour un devis</a>
+          </section>
+
+          <!-- Galerie d'images -->
+          <section id="gallery" class="section gallery">
+              <h3>Nos réalisations</h3>
+              <div class="gallery">
+                  <img src="https://via.placeholder.com/300x200/3498db/ffffff?text=Projet+1" alt="Projet 1">
+                  <img src="https://via.placeholder.com/300x200/2ecc71/ffffff?text=Projet+2" alt="Projet 2">
+                  <img src="https://via.placeholder.com/300x200/e74c3c/ffffff?text=Projet+3" alt="Projet 3">
+              </div>
+          </section>
+
+          <!-- Témoignages -->
+          <section id="testimonials" class="section testimonials">
+              <h3>Ce que disent nos clients</h3>
+              <div class="testimonial">
+                  <p>"Mon Entreprise a transformé notre façon de travailler. Leur expertise et créativité sont inégalées. Nous recommandons vivement leurs services."</p>
+                  <h4>- Jean Dupont, CEO de Startup XYZ</h4>
+              </div>
+              <div class="testimonial">
+                  <p>"Un service client réactif et des résultats qui dépassent nos attentes. Un partenaire de confiance pour notre croissance digitale."</p>
+                  <h4>- Marie Martin, Responsable Marketing</h4>
+              </div>
+          </section>
+
+          <!-- Contact -->
+          <section id="contact" class="section contact">
+              <h3>Contactez-nous</h3>
+              <p>Vous avez un projet ou une question ? N'hésitez pas à nous contacter directement. Nous serions ravis d'en discuter avec vous.</p>
+              <a href="mailto:contact@monentreprise.com" class="cta-button">Envoyer un message</a>
+          </section>
+
+          <!-- Footer -->
+          <footer>
+              <p>&copy; 2024 Mon Entreprise. Tous droits réservés. <a href="#">Mentions légales</a></p>
+          </footer>
+
+      </body>
+      </html>
+
 
   - owner: www-data:www-data 
 
@@ -58,7 +331,7 @@ write_files:
 
       app.get('/', function (req, res) { 
 
-        res.send('Hello World from host ' + os.hostname() + '!') 
+        res.sendFile(path.join('/home/myapp','index.html')) 
 
       }) 
 
