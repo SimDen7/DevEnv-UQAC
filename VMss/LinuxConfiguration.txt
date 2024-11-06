@@ -323,9 +323,11 @@ write_files:
 
     content: | 
 
-      var express = require('express') 
+      var express = require('express');
 
-      var app = express() 
+      var path = require('path');
+
+      var app = express();
 
       var os = require('os'); 
 
