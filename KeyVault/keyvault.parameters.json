@@ -47,7 +47,7 @@
             }
         },
 		"adminPassword": {
-			"value": "P@ssw0rd123"
+			"value": "null"
 		}
     }
 }
