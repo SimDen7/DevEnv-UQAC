@@ -35,7 +35,7 @@ stages:
               csmParametersFile: '$(ressourceGroupParameters)' # Path to parameter file for the resource group
               deploymentMode: 'Incremental'
 
-  - stage: DeployKeyVault
+  - stage: DeployKeyVault 
     displayName: 'Deploy Key Vault'
     dependsOn: DeployResourceGroup
     jobs:
