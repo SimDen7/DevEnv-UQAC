@@ -36,10 +36,8 @@ stages:
   - stage: DeployKeyVault
     displayName: 'Deploy Key Vault'
     jobs:
-       
-      - job: DeployResourceGroup
-        displayName: 'Deploy Resource Group'
-        condition: succeeded('DeployKeyVaultValidation')
+      - job: DeployKV
+        displayName: 'Deploy Key Vault'
         steps:
           - checkout: self
           - task: AzureResourceManagerTemplateDeployment@3
@@ -51,13 +49,6 @@ stages:
               csmFile: '$(ressourceGroupTemplate)'         # Path to resource group template
               csmParametersFile: '$(ressourceGroupParameters)' # Path to parameter file for the resource group
               deploymentMode: 'Incremental'
-
-      - job: DeployKeyVault
-        displayName: 'Deploy Key Vault'
-        dependsOn: DeployResourceGroup
-        condition: succeeded('DeployResourceGroup')
-        steps:
-          - checkout: self
           - task: AzureResourceManagerTemplateDeployment@3
             inputs:
               deploymentScope: 'Resource Group'
@@ -67,8 +58,7 @@ stages:
               templateLocation: 'Linked artifact'
               csmFile: '$(keyVaultTemplate)'         # Path to Key Vault template
               csmParametersFile: '$(keyVaultParameters)' # Path to parameter file for the Key Vault
-              deploymentMode: 'Incremental'
-
+              deploymentMode: 'Incremental'      
   - stage: DeployVMScaleSet
     displayName: 'Deploy VM Scale Set'
     jobs:
@@ -87,7 +77,7 @@ stages:
             templateLocation: 'Linked artifact'
             csmFile: 'VMss/ressourcegroup.json'
             csmParametersFile: 'VMss/ressourcegroup.parameters.json'
-            deploymentMode: 'Validation'
+            deploymentMode: 'Incremental'
         #Convertion du fichier de configuration des VM pour Custome Data
         - task: PowerShell@2
           inputs:
@@ -120,4 +110,4 @@ stages:
             csmFile: 'VMss/deployvmss.json'
             csmParametersFile: 'VMss/deployvmss.parameters.json'
             overrideParameters: '-customData "$(CustomDataWeb)" -adminPassword "$(admin-password)"'  #Overwrite the password and CustomData
-            deploymentMode: 'Validation'
+            deploymentMode: 'Incremental'
