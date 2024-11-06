@@ -36,7 +36,7 @@ stages:
               deploymentMode: 'Incremental'
 
   - stage: DeployKeyVault 
-    displayName: 'Deploy Key Vault'
+    displayName: 'Deploy Key Vault' 
     dependsOn: DeployResourceGroup
     jobs:
       - job: DeployKV
