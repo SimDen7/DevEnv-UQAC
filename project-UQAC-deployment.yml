@@ -50,7 +50,7 @@ stages:
               templateLocation: 'Linked artifact'
               csmFile: '$(ressourceGroupTemplate)'         # Path to resource group template
               csmParametersFile: '$(ressourceGroupParameters)' # Path to parameter file for the resource group
-              deploymentMode: 'Incremental'
+              deploymentMode: 'Validation'
 
       - job: DeployKeyVault
         displayName: 'Deploy Key Vault'
@@ -67,7 +67,8 @@ stages:
               templateLocation: 'Linked artifact'
               csmFile: '$(keyVaultTemplate)'         # Path to Key Vault template
               csmParametersFile: '$(keyVaultParameters)' # Path to parameter file for the Key Vault
-              deploymentMode: 'Incremental'
+              overrideParameters: '-adminPassword "$(AdminPass)"'  #Overwrite the password
+              deploymentMode: 'Validation'
 
   - stage: DeployVMScaleSet
     displayName: 'Deploy VM Scale Set'
