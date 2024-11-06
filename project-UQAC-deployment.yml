@@ -39,7 +39,7 @@ stages:
        
       - job: DeployResourceGroup
         displayName: 'Deploy Resource Group'
-        condition: succeeded('DeployKeyVaultValidation')
+        
         steps:
           - checkout: self
           - task: AzureResourceManagerTemplateDeployment@3
@@ -55,7 +55,7 @@ stages:
       - job: DeployKeyVault
         displayName: 'Deploy Key Vault'
         dependsOn: DeployResourceGroup
-        condition: succeeded('DeployResourceGroup')
+        
         steps:
           - checkout: self
           - task: AzureResourceManagerTemplateDeployment@3
