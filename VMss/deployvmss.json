@@ -93,6 +93,7 @@
             "type": "Bool"
         }
     }, 
+	// Definition des variables
     "variables": {
         "storageApiVersion": "2021-01-01",
         "networkApiVersion": "2020-11-01",
@@ -102,6 +103,7 @@
         "vmssId": "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('virtualMachineScaleSetName'))]"
     },
     "resources": [
+		//Creation du reseau virtuel
         {
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2024-01-01",
@@ -114,6 +116,7 @@
                 "subnets": "[parameters('subnets')]"
             }
         },
+		//Creation des groupes de securite
         {
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2020-05-01",
@@ -127,6 +130,7 @@
                 "count": "[length(parameters('networkSecurityGroups'))]"
             }
         },
+		//Creation de l'adresse IP publique
         {
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "2020-08-01",
@@ -145,6 +149,7 @@
                 "idleTimeoutInMinutes": 15
             }
         },
+		//Creation du LoadBalancer
         {
             "type": "Microsoft.Network/loadBalancers",
             "apiVersion": "2021-05-01",
@@ -228,6 +233,7 @@
                 ]
             }
         },
+		//Creation de la configuration de l auto-scaling
         {
             "type": "Microsoft.Insights/autoscaleSettings",
             "apiVersion": "2021-05-01-preview",
@@ -290,6 +296,7 @@
                 ]
             }
         },
+		//Creation de la configuration de la VM
         {
             "type": "Microsoft.Compute/virtualMachineScaleSets",
             "apiVersion": "[variables('virtualMachineScaleSetApiVersion')]",
