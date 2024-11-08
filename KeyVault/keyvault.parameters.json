@@ -47,7 +47,7 @@
             }
         },
 		"adminPassword": {
-			"value": "null"
+			"value": ""
 		}
     }
 }

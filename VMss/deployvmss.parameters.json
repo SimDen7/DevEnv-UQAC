@@ -146,7 +146,7 @@
             "value": "adminvmss"
         },
         "adminPassword": {
-            "value": null
+            "value": ""
         },
         "customData": {
             "value": null
