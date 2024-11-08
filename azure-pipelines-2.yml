@@ -1,7 +1,7 @@
 trigger:
-- main
+- main # Déclenchement de la pipeline lorsque des modifications sont apportées à la branche "main"
 
-pool: default 
+pool: default # Définition du pool de machines 'default' pour l'exécution de la pipeline 
 
 variables:
   - name: Group
@@ -11,10 +11,6 @@ variables:
   - name: CustomDataWeb
   - name: Subscription
     value: 'Azure subscription 1(c24d5ea5-e90d-4220-908f-60b4f697f89b)'
-  - name: azureSubscription
-    value: 'Azure subscription 1(c24d5ea5-e90d-4220-908f-60b4f697f89b)'
-  - name: location
-    value: 'canada central'
   - name: ressourceGroupTemplate
     value: 'KeyVault/ressourcegroup.json'
   - name: ressourceGroupParameters
@@ -26,87 +22,96 @@ variables:
   - name: keyVaultParameters
     value: 'KeyVault/keyvault.parameters.json'
 
+# Définition des différentes étapes de la pipeline
 stages:
+  # Étape de déploiement du Key Vault
   - stage: DeployKeyVault
-    displayName: 'Deploy Key Vault'
+    displayName: 'Déployer Key Vault'
     jobs:
+      # Déploiement du groupe de ressources pour Key Vault
       - job: DeployResourceGroup
-        displayName: 'Deploy Resource Group for Key Vault'
+        displayName: 'Déployer le groupe de ressources pour Key Vault'
         steps:
-          - checkout: self
-          - task: AzureResourceManagerTemplateDeployment@3
+          - checkout: self 
+          - task: AzureResourceManagerTemplateDeployment@3  # Tâche de déploiement via un template Azure Resource Manager
             inputs:
-              deploymentScope: 'Subscription'
-              azureResourceManagerConnection: $(azureSubscription)
-              location: $(location)
-              templateLocation: 'Linked artifact'
-              csmFile: $(ressourceGroupTemplate)         # Path to resource group template
-              csmParametersFile: $(ressourceGroupParameters) # Path to parameter file for the resource group
-              deploymentMode: 'Incremental'
+              deploymentScope: 'Subscription'  # Déploiement au niveau de la souscription Azure
+              azureResourceManagerConnection: $(Subscription)  # Connexion à la souscription Azure
+              location: $(Location)  # Localisation du déploiement
+              templateLocation: 'Linked artifact'  # Emplacement du template lié
+              csmFile: $(ressourceGroupTemplate)  # Chemin du fichier template pour le groupe de ressources
+              csmParametersFile: $(ressourceGroupParameters)  # Chemin du fichier de paramètres pour le groupe de ressources
+              deploymentMode: 'Incremental'  # Mode de déploiement incrémental
+      # Déploiement de l'instance de Key Vault
       - job: DeployKeyVaultInstance
         displayName: 'Deploy Key Vault Instance'
-        dependsOn: DeployResourceGroup
+        dependsOn: DeployResourceGroup  # Cette étape dépend de l'étape précédente
         steps:
-          - task: AzureResourceManagerTemplateDeployment@3
+          - task: AzureResourceManagerTemplateDeployment@3  # Tâche de déploiement pour l'instance de Key Vault
             inputs:
-              deploymentScope: 'Resource Group'
-              azureResourceManagerConnection: $(azureSubscription)
-              resourceGroupName: $(ressourceGroupName)
-              location: $(location)
-              templateLocation: 'Linked artifact'
-              csmFile: $(keyVaultTemplate)         # Path to Key Vault template
-              csmParametersFile: $(keyVaultParameters) # Path to parameter file for the Key Vault
-              overrideParameters: '-adminPassword "$(AdminPass)"'  #Overwrite the password
-              deploymentMode: 'Incremental'
-
+              deploymentScope: 'Resource Group'  # Déploiement au niveau du groupe de ressources
+              azureResourceManagerConnection: $(Subscription)  # Connexion à la souscription Azure
+              resourceGroupName: $(ressourceGroupName)  # Nom du groupe de ressources de KeyVault
+              location: $(Location)  # Localisation du déploiement
+              templateLocation: 'Linked artifact'  # Emplacement du template lié
+              csmFile: $(keyVaultTemplate)  # Chemin du fichier template pour Key Vault
+              csmParametersFile: $(keyVaultParameters)  # Chemin du fichier de paramètres pour Key Vault
+              overrideParameters: '-adminPassword "$(AdminPass)"'  # Remplace le mot de passe du Template
+              deploymentMode: 'Incremental'  # Mode de déploiement incrémental
+  # Étape de déploiement du VM Scale Set
   - stage: DeployVMScaleSet
     displayName: 'Deploy VM Scale Set'
     jobs:
+      # Déploiement du groupe de ressources pour le VM Scale Set
       - job: DeployResourceGroupForVMSS
         displayName: 'Deploy Resource Group for VM Scale Set'
         steps:
-          - task: AzureResourceManagerTemplateDeployment@3
+          - task: AzureResourceManagerTemplateDeployment@3  # Tâche de déploiement pour le groupe de ressources
             inputs:
-              deploymentScope: 'Subscription'
-              azureResourceManagerConnection: $(Subscription)
-              subscriptionId: 'c24d5ea5-e90d-4220-908f-60b4f697f89b'
+              deploymentScope: 'Subscription'  # Déploiement au niveau de la souscription Azure
+              azureResourceManagerConnection: $(Subscription)  # Connexion à la souscription Azure
+              subscriptionId: 'c24d5ea5-e90d-4220-908f-60b4f697f89b'  # Identifiant de la souscription
               action: 'Create Or Update Resource Group'
-              resourceGroupName: $(Group)
-              location: $(Location)
-              templateLocation: 'Linked artifact'
-              csmFile: 'VMss/ressourcegroup.json'
-              csmParametersFile: 'VMss/ressourcegroup.parameters.json'
-              deploymentMode: 'Incremental'
+              resourceGroupName: $(Group)  # Nom du groupe de ressources pour le VM Scale Set
+              location: $(Location)  # Localisation du déploiement
+              templateLocation: 'Linked artifact'  # Emplacement du template lié
+              csmFile: 'VMss/ressourcegroup.json'  # Chemin du fichier template pour le groupe de ressources du VMSS
+              csmParametersFile: 'VMss/ressourcegroup.parameters.json'  # Chemin du fichier de paramètres
+              deploymentMode: 'Incremental'  # Mode de déploiement incrémental
+      # Conversion de la configuration Linux pour Custom Data
       - job: ConvertLinuxConfigForCustomData
         displayName: 'Convert Linux Configuration for Custom Data'
-        dependsOn: DeployResourceGroupForVMSS
         steps:
-          - task: PowerShell@2
+          - task: PowerShell@2 # Tâche PowerShell pour la conversion du Custom Data
             inputs:
-              targetType: 'inline'
+              targetType: 'inline' # Exécution du script PS
               script: |
                 $CloudContent = Get-Content -Path "$(Build.SourcesDirectory)\VMss\LinuxConfiguration.txt" -Raw
                 Write-Host $CloudContent 
                 $encodedContent = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($CloudContent))
                 Write-Host $encodedContent
                 Write-Host "##vso[task.setvariable variable=CustomDataWeb;]$encodedContent"
+      # Accès au Key Vault pour récupérer les secrets
       - job: AccessKeyVault
         displayName: 'Access Key Vault for Secrets'
-        dependsOn: ConvertLinuxConfigForCustomData
         steps:
-          - task: AzureKeyVault@2
+          - task: AzureKeyVault@2 # Tâche d'accès à Key Vault
             inputs:
-              azureSubscription: 'spn-app-keyvault'
+              azureSubscription: 'spn-app-keyvault' # Connexion à la souscription Azure via un SPN
               KeyVaultName: 'keyvault-deployment-4'
-              SecretsFilter: 'admin-password'
-              RunAsPreJob: false
+              SecretsFilter: 'admin-password' # Filtre pour récupérer le secret "admin-password"
+              RunAsPreJob: false # Ne pas exécuter cette tâche avant le job
+      # Déploiement du VM Scale Set
       - job: DeployVMSS
-        displayName: 'Deploy VM Scale Set'
-        dependsOn: AccessKeyVault
+        displayName: 'Deploy VM Scale Set' 
+        dependsOn: # Cette étape dépend de l'accès au Key Vault, de la conversion du Custon Data et du deploiement du ressource groupe
+         - AccessKeyVault
+         - ConvertLinuxConfigForCustomData
+         - DeployResourceGroupForVMSS
         steps:
-          - task: AzureResourceManagerTemplateDeployment@3
+          - task: AzureResourceManagerTemplateDeployment@3 # Tâche de déploiement du VM Scale Set
             inputs:
-              deploymentScope: 'Resource Group'
+              deploymentScope: 'Resource Group' # Déploiement au niveau du groupe de ressources
               azureResourceManagerConnection: $(Subscription)
               subscriptionId: 'c24d5ea5-e90d-4220-908f-60b4f697f89b'
               action: 'Create Or Update Resource Group'
@@ -115,5 +120,5 @@ stages:
               templateLocation: 'Linked artifact'
               csmFile: 'VMss/deployvmss.json'
               csmParametersFile: 'VMss/deployvmss.parameters.json'
-              overrideParameters: '-customData "$(CustomDataWeb)" -adminPassword "$(admin-password)"'  #Overwrite the password and CustomData
+              overrideParameters: '-customData "$(CustomDataWeb)" -adminPassword "$(admin-password)"'  # Remplace le mot de passe et CustomData du Template
               deploymentMode: 'Incremental'
