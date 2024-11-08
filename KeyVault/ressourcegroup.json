@@ -15,6 +15,7 @@
     },
     "variables": {},
     "resources": [
+        // Création du Resource Group
         {
             "type": "Microsoft.Resources/resourceGroups",
             "apiVersion": "2018-05-01",
