@@ -12,6 +12,7 @@ packages:
 
 write_files: 
 
+#Ecriture du fichier de config pour servir le site web
   - owner: www-data:www-data 
 
     path: /etc/nginx/sites-available/default 
@@ -41,12 +42,13 @@ write_files:
         } 
 
       } 
+#Ecriture du site en lui meme
   - owner: www-data:www-data
     path: /home/myapp/index.html
     defer: true
     content: |
       <!DOCTYPE html>
-      <html lang="fr"> 
+      <html lang="fr">
       <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -314,7 +316,7 @@ write_files:
       </body>
       </html>
 
-
+#Ecriture du serveur express pour fournir le site a l'uilisateur
   - owner: www-data:www-data 
 
     path: /home/myapp/index.js 
@@ -343,6 +345,7 @@ write_files:
 
       }) 
 
+#Initialisation du site/installation des depences puis demarage du serveur node
 runcmd: 
 
   - service nginx restart 
@@ -351,6 +354,6 @@ runcmd:
 
   - npm init 
 
-  - npm install express -y 
+  - npm install express -y
 
   - nodejs index.js 
